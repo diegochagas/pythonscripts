@@ -16,7 +16,7 @@ CBR files can be opened with any comic book reader such as [CDisplayEx](https://
 ## Requirements
 
 - Python 3.7+
-- [PyMuPDF](https://pymupdf.readthedocs.io/) (no Poppler or other external tools needed)
+- [PyMuPDF](https://pymupdf.readthedocs.io/)
 
 Install the dependency with:
 
@@ -44,10 +44,10 @@ python pdf_to_cbr.py
 
 ### Options
 
-| Flag | Description | Default |
-|---|---|---|
-| `--dpi <number>` | Rendering resolution in DPI | `150` |
-| `--overwrite` | Re-convert PDFs that already have a `.cbr` | Off (skips existing) |
+| Flag             | Description                                | Default              |
+| ---------------- | ------------------------------------------ | -------------------- |
+| `--dpi <number>` | Rendering resolution in DPI                | `150`                |
+| `--overwrite`    | Re-convert PDFs that already have a `.cbr` | Off (skips existing) |
 
 ### Examples
 

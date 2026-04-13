@@ -51,7 +51,7 @@ def clean_stem(path: Path) -> str:
 def pdf_to_cbr(pdf_path: Path, dpi: int = 150, skip_existing: bool = True) -> dict:
     """
     Convert one PDF to a CBR file.
-    Renders each page as JPEG using PyMuPDF (no poppler needed).
+    Renders each page as JPEG using PyMuPDF.
     Returns a dict: name, pages, images, cbr_path, status, error
     """
     import fitz  # PyMuPDF
