@@ -90,6 +90,53 @@ python make_cbr.py "C:\path\to\chapter1"
 
 ---
 
+## images_to_cbr.py
+
+Packages a folder of images into a `.cbr` file (a ZIP archive renamed to `.cbr`) without any image conversion or resizing. Images are added exactly as they are. Useful when you want to bundle existing images as-is, preserving their original format and quality.
+
+### How it works
+
+- If the target folder contains **subfolders**, each subfolder is packaged into its own `.cbr` file saved alongside the subfolders in the parent directory.
+- If the target folder contains **images directly** (no subfolders), the entire folder is packaged into a single `.cbr` saved in the parent directory.
+
+Before renaming the ZIP to `.cbr`, the script verifies that every expected image file is present in the archive by name. If any are missing, the ZIP is deleted and an error is reported.
+
+Supported image formats: `.jpg`, `.jpeg`, `.png`, `.gif`, `.webp`, `.bmp`, `.tiff`, `.tif`
+
+### Requirements
+
+- Python 3.10+ (standard library only — no extra dependencies)
+
+### Usage
+
+```
+python images_to_cbr.py <folder>
+```
+
+### Examples
+
+Pack each subfolder of a directory into its own CBR:
+
+```
+python images_to_cbr.py "C:\path\to\comics"
+```
+
+Pack all images in a single folder into one CBR:
+
+```
+python images_to_cbr.py "C:\path\to\chapter1"
+```
+
+### Difference from make_cbr.py
+
+| Feature | `make_cbr.py` | `images_to_cbr.py` |
+| --- | --- | --- |
+| Image conversion | Converts to JPEG | None — files copied as-is |
+| Resizing | Yes (max height 2500 px) | No |
+| Dependencies | Pillow | None |
+
+---
+
 ## rotate_images.py
 
 Rotates all images in a folder by a specified number of degrees, overwriting the originals in place.
