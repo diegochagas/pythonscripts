@@ -1,8 +1,14 @@
-# PDF to CBR Converter
+# Python Scripts
+
+A collection of utility scripts for working with images and comic book archives.
+
+---
+
+## pdf_to_cbr.py
 
 Converts a folder of PDF files into CBR (Comic Book Reader) format. Each PDF page is rendered as a JPG image, then all images are packaged into a ZIP archive and renamed to `.cbr`.
 
-## How it works
+### How it works
 
 For each PDF found in the target folder:
 
@@ -11,38 +17,22 @@ For each PDF found in the target folder:
 3. Compresses all JPGs into a ZIP archive named after the PDF
 4. Renames the ZIP to `.cbr`
 
-CBR files can be opened with any comic book reader such as [CDisplayEx](https://www.cdisplayex.com/), [Calibre](https://calibre-ebook.com/), or similar apps.
-
-## Requirements
+### Requirements
 
 - Python 3.7+
 - [PyMuPDF](https://pymupdf.readthedocs.io/)
-
-Install the dependency with:
 
 ```
 pip install pymupdf
 ```
 
-## Usage
-
-### Basic usage
-
-Pass the path to the folder containing your PDFs:
+### Usage
 
 ```
-python pdf_to_cbr.py "C:\path\to\your\pdfs"
+python pdf_to_cbr.py <folder> [--dpi <number>] [--overwrite]
 ```
 
-### Interactive mode (no argument)
-
-If you omit the folder path, the script will prompt you to enter it:
-
-```
-python pdf_to_cbr.py
-```
-
-### Options
+If you omit the folder path, the script will prompt you to enter it.
 
 | Flag             | Description                                | Default              |
 | ---------------- | ------------------------------------------ | -------------------- |
@@ -51,36 +41,95 @@ python pdf_to_cbr.py
 
 ### Examples
 
-Convert PDFs at the default 150 DPI:
-
 ```
-python pdf_to_cbr.py "C:\path\to\your\pdfs"
-```
-
-Convert at higher quality (300 DPI):
-
-```
-python pdf_to_cbr.py "C:\path\to\your\pdfs" --dpi 300
+python pdf_to_cbr.py "C:\path\to\pdfs"
+python pdf_to_cbr.py "C:\path\to\pdfs" --dpi 300
+python pdf_to_cbr.py "C:\path\to\pdfs" --dpi 200 --overwrite
 ```
 
-Re-convert all PDFs, even if a `.cbr` already exists:
+### Output
+
+`.cbr` files are saved in the same folder as the source PDFs, named after each source PDF (e.g. `my-comic.pdf` → `my-comic.cbr`). Files that already have a `.cbr` are skipped by default; use `--overwrite` to force re-conversion.
+
+---
+
+## make_cbr.py
+
+Packages a folder of images directly into a `.cbr` file (a ZIP archive renamed to `.cbr`) without any PDF conversion step. Useful when you already have image files and just want to bundle them into a comic book archive.
+
+### How it works
+
+- If the target folder contains **subfolders**, each subfolder is packaged into its own `.cbr` file and saved alongside the subfolders in the parent directory.
+- If the target folder contains **images directly** (no subfolders), the entire folder is packaged into a single `.cbr` saved in the parent directory.
+
+Supported image formats: `.jpg`, `.jpeg`, `.png`, `.gif`, `.webp`, `.bmp`, `.tiff`, `.tif`
+
+### Requirements
+
+- Python 3.7+ (standard library only — no extra dependencies)
+
+### Usage
 
 ```
-python pdf_to_cbr.py "C:\path\to\your\pdfs" --overwrite
+python make_cbr.py <folder>
 ```
 
-Combine both options:
+### Examples
+
+Pack each subfolder of a directory into its own CBR:
 
 ```
-python pdf_to_cbr.py "C:\path\to\your\pdfs" --dpi 200 --overwrite
+python make_cbr.py "C:\path\to\comics"
 ```
 
-## Output
+Pack all images in a single folder into one CBR:
 
-The `.cbr` files are saved in the same folder as the source PDFs. Each file is named after its source PDF (e.g. `my-comic.pdf` → `my-comic.cbr`).
+```
+python make_cbr.py "C:\path\to\chapter1"
+```
 
-## Notes
+---
 
-- Files that already have a corresponding `.cbr` are skipped by default. Use `--overwrite` to force re-conversion.
-- Duplicate PDFs with the same base name (e.g. `file.pdf` and `file.pdf.pdf`) are deduplicated automatically — only the cleanest name is processed.
-- A summary is printed at the end showing how many files were converted, skipped, warned, or errored.
+## rotate_images.py
+
+Rotates all images in a folder by a specified number of degrees, overwriting the originals in place.
+
+### Requirements
+
+- Python 3.7+
+- [Pillow](https://pillow.readthedocs.io/)
+
+```
+pip install pillow
+```
+
+### Usage
+
+```
+python rotate_images.py <folder> [degrees]
+```
+
+`degrees` defaults to `90` if not specified.
+
+### Examples
+
+Rotate all images 90 degrees clockwise:
+
+```
+python rotate_images.py "C:\path\to\images"
+```
+
+Rotate all images 180 degrees:
+
+```
+python rotate_images.py "C:\path\to\images" 180
+```
+
+### Notes
+
+- Images are overwritten in place — make a backup first if needed.
+- Supported formats: `.jpg`, `.jpeg`, `.png`, `.bmp`, `.gif`, `.tiff`, `.webp`
+
+---
+
+CBR files can be opened with any comic book reader such as [CDisplayEx](https://www.cdisplayex.com/), [Calibre](https://calibre-ebook.com/), or similar apps.
